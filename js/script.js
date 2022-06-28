@@ -20,8 +20,13 @@ function checkStatus(response){
 function generateModal(index, data){
     const gallery = document.getElementById('gallery');
     const modal = document.createElement('div');
-    modal.setAttribute('class', 'modal-container');
 
+    //Date of Birth Rewrite
+    let dateOfBirth = data.results[index].dob.date.substr(0,10);
+    console.log(dateOfBirth);
+    let newDoB = dateOfBirth.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2/$3/$1');
+
+    modal.setAttribute('class', 'modal-container');
     modal.insertAdjacentHTML("beforeend", 
         `<div class="modal">
             
@@ -38,13 +43,17 @@ function generateModal(index, data){
                 <p class="modal-text">${data.results[index].cell}</p>
                 <p class="modal-text">
                 ${data.results[index].location.street.number} ${data.results[index].location.street.name}, ${data.results[index].location.city} ${data.results[index].location.state} ${data.results[index].location.postcode}</p>
-                <p class="modal-text">Birthday: 10/21/2015</p>
+                <p class="modal-text">Birthday: ${newDoB}</p>
             </div>
         </div>`);
-    
-        gallery.appendChild(modal);
-   
 
+        //Event listener to close the modal
+        
+        gallery.appendChild(modal);
+        
+        document.getElementById('modal-close-btn').addEventListener('click', e =>{
+            modal.remove();
+        })
 }
 
 
@@ -74,9 +83,9 @@ function generateHTML(data){
 
     [...document.getElementsByClassName('card')].forEach( card =>{
         card.addEventListener('click', e =>{
-            let ind = card.getAttribute('data-index');
-            console.log(ind);
-            generateModal(ind, data)
+            let index = card.getAttribute('data-index');
+
+            generateModal(index, data)
 
         })
     })
