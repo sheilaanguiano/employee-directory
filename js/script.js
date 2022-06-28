@@ -9,6 +9,11 @@ fetch("https://randomuser.me/api/?results=12&nat=us&format=json")
 //-----------------------------
 
 
+/**
+  * [Check status of the fetch call and handles errors] 
+  * @param {Object} response - API response data
+  */
+
 function checkStatus(response){
     if(response.ok){
         return Promise.resolve(response);
@@ -16,6 +21,12 @@ function checkStatus(response){
         return Promise.reject(new Error(response.statusText));
     }
 }
+
+/**
+  * [Generates the div Modal of a clicked Employee] 
+  * @param {Number} index - index provided by the data-index attributed received by the click event
+  * @param {Object} response - API data response
+  */
 
 function generateModal(index, data){
     const gallery = document.getElementById('gallery');
@@ -47,19 +58,23 @@ function generateModal(index, data){
             </div>
         </div>`);
 
-        //Event listener to close the modal
-        
         gallery.appendChild(modal);
         
+        //Event listener to close the modal
         document.getElementById('modal-close-btn').addEventListener('click', e =>{
             modal.remove();
         })
 }
 
+/**
+  * [Generates a card with different personal information for every object provided by the random User API] 
+  * @param {Object} response - API data response
+  */
 
 function generateHTML(data){
     const gallery = document.getElementById('gallery');
 
+    // Creates a index and iterated over each data object provided by the API
     for (let i = 0; i < data.results.length; i++) {
         let person = data.results[i];    
         person.index = i;
@@ -81,12 +96,12 @@ function generateHTML(data){
         gallery.appendChild(card);
     };
 
+    //Iterates over each card element and add a event listener that triggers the
+    // generateModal function
     [...document.getElementsByClassName('card')].forEach( card =>{
         card.addEventListener('click', e =>{
             let index = card.getAttribute('data-index');
-
             generateModal(index, data)
-
         })
     })
 }
