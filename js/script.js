@@ -10,7 +10,7 @@ fetch("https://randomuser.me/api/?results=12&nat=us&format=json")
 
 
 /**
-  * [Check status of the fetch call and handles errors] 
+  * [Returns error or success when fetching objects from remote API] 
   * @param {Object} response - API response data
   */
 
@@ -97,7 +97,7 @@ function generateHTML(data){
     };
 
     //Iterates over each card element and add a event listener that triggers the
-    // generateModal function
+    // generateModal function.
     [...document.getElementsByClassName('card')].forEach( card =>{
         card.addEventListener('click', e =>{
             let index = card.getAttribute('data-index');
